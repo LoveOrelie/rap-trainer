@@ -13,103 +13,155 @@
 
 <h1>🎤 Rap Trainer</h1>
 
+
 <div class="card">
-    <h2>🥁 Beat</h2>
-    <button id="beatBtn">Start Beat</button>
+<h2>🥁 Beat</h2>
+
+<button id="beatBtn">Start Beat</button>
+
 </div>
 
 
+
 <div class="card">
-    <h2>✍️ Schrijf je rap</h2>
+<h2>🎹 Beat Maker</h2>
 
-    <textarea id="lyrics" placeholder="Schrijf hier je rap..."></textarea>
+<button onclick="playKick()">🥁 Kick</button>
+<button onclick="playSnare()">👏 Snare</button>
+<button onclick="playHat()">✨ Hi-hat</button>
 
-    <p>Woorden: <span id="words">0</span></p>
+<br><br>
+
+<button onclick="startCustomBeat()">▶ Start eigen beat</button>
+<button onclick="stopCustomBeat()">⏹ Stop</button>
+
+<p>
+Beat-score:
+<span id="beatScore">0</span>/100
+</p>
+
 </div>
 
 
+
 <div class="card">
-    <h2>💡 Inspiratie</h2>
+<h2>✍️ Schrijf je rap</h2>
 
-    <button onclick="randomWord()">Nieuw woord</button>
+<textarea id="lyrics"
+placeholder="Schrijf hier je rap..."></textarea>
 
-    <p id="word"></p>
+<p>
+Woorden:
+<span id="words">0</span>
+</p>
+
 </div>
 
 
+
 <div class="card">
-    <h2>⭐ Rap Score</h2>
+<h2>💡 Inspiratie</h2>
 
-    <button onclick="checkRap()">Controleer</button>
+<button onclick="randomWord()">
+Nieuw woord
+</button>
 
-    <h3 id="score"></h3>
+<p id="word"></p>
+
 </div>
 
 
+
 <div class="card">
-    <h2>🎙️ Stemopname</h2>
+<h2>⭐ Rap Score</h2>
 
-    <button id="recordBtn">Start opname</button>
-    <button id="stopBtn" disabled>Stop</button>
+<button onclick="checkRap()">
+Controleer
+</button>
 
-    <br><br>
+<h3 id="score"></h3>
 
-    <audio id="audio" controls></audio>
-
-    <br>
-
-    <a id="download" download="mijn_rap.webm">
-        Download opname
-    </a>
 </div>
 
 
+
+
 <div class="card">
+<h2>🎙️ Stemopname</h2>
 
-    <h2>🎤 Karaoke modus</h2>
+<button id="recordBtn">
+Start opname
+</button>
 
-    <textarea id="karaokeLyrics"
-    placeholder="Plak hier je songtekst..."></textarea>
+<button id="stopBtn" disabled>
+Stop
+</button>
 
+<br><br>
 
-    <br><br>
+<audio id="audio" controls></audio>
 
+<br>
 
-    <label>
-        BPM:
-        <span id="bpmValue">90</span>
-    </label>
-
-
-    <br>
-
-
-    <input 
-    type="range"
-    id="bpm"
-    min="60"
-    max="180"
-    value="90"
-    oninput="updateBPM()">
-
-
-
-    <br><br>
-
-
-    <button onclick="startKaraoke()">
-        Start Karaoke
-    </button>
-
-
-    <button onclick="pauseKaraoke()">
-        Pauze
-    </button>
-
-
-    <div id="karaoke"></div>
+<a id="download" download="mijn_rap.webm">
+Download opname
+</a>
 
 </div>
+
+
+
+
+<div class="card">
+
+<h2>🎤 Karaoke modus</h2>
+
+
+<textarea id="karaokeLyrics"
+placeholder="Plak hier de tekst..."></textarea>
+
+
+<br><br>
+
+
+<label>
+BPM:
+<span id="bpmValue">90</span>
+</label>
+
+
+<br>
+
+
+<input
+type="range"
+id="bpm"
+min="60"
+max="180"
+value="90"
+oninput="updateBPM()">
+
+
+
+<br><br>
+
+
+<button onclick="startKaraoke()">
+▶ Start Karaoke
+</button>
+
+
+<button onclick="pauseKaraoke()">
+⏸ Pauze
+</button>
+
+
+
+<div id="karaoke"></div>
+
+
+</div>
+
 
 
 <script src="script.js"></script>
