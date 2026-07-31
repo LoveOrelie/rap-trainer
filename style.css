@@ -1,0 +1,120 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: white;
+  padding: 20px;
+  margin: 0;
+}
+
+
+h1 {
+  text-align: center;
+  color: #ff4fa2;
+  font-size: 40px;
+}
+
+
+.card {
+  background: #222;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(255, 79, 162, 0.3);
+}
+
+
+h2 {
+  color: #ff8bc2;
+}
+
+
+button {
+  background: #ff4fa2;
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+
+button:hover {
+  background: #ff2d8a;
+}
+
+
+button:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
+
+textarea {
+  width: 100%;
+  height: 150px;
+  background: #333;
+  color: white;
+  border: 2px solid #ff4fa2;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 16px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+
+input[type="range"] {
+  width: 100%;
+  accent-color: #ff4fa2;
+}
+
+
+audio {
+  width: 100%;
+}
+
+
+a {
+  color: #ff8bc2;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+
+#karaoke {
+  margin-top: 25px;
+  text-align: center;
+  font-size: 25px;
+  line-height: 1.8;
+}
+
+
+#word {
+  font-size: 25px;
+  color: #ff4fa2;
+  font-weight: bold;
+}
+
+
+#score {
+  color: #ffd700;
+}
+
+
+@media (max-width: 600px) {
+
+  h1 {
+      font-size: 30px;
+  }
+
+  .card {
+      padding: 15px;
+  }
+
+  button {
+      width: 100%;
+  }
+}
