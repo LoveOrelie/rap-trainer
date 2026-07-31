@@ -1,338 +1,170 @@
-// Woordenteller
-const textarea = document.getElementById("lyrics");
-const words = document.getElementById("words");
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-textarea.addEventListener("input", () => {
+<title>Rap Trainer</title>
 
-    if (textarea.value.trim() === "") {
-        words.innerText = 0;
-    } else {
-        words.innerText = textarea.value.trim().split(/\s+/).length;
-    }
+<link rel="stylesheet" href="style.css">
+</head>
 
-});
+<body>
 
+<h1>🎤 Rap Trainer</h1>
 
-// Inspiratiewoorden
-const inspiratie = [
-    "fire",
-    "queen",
-    "shine",
-    "dream",
-    "dance",
-    "power",
-    "light",
-    "night",
-    "flow",
-    "energy",
-    "star",
-    "stage"
-];
 
+<div class="card">
+<h2>🥁 Beat</h2>
 
-function randomWord(){
+<button id="beatBtn">Start Beat</button>
 
-    document.getElementById("word").innerText =
-    inspiratie[Math.floor(Math.random()*inspiratie.length)];
+</div>
 
-}
 
 
-// Rap score
-function checkRap(){
+<div class="card">
+<h2>🎹 Beat Maker</h2>
 
-    let text = textarea.value.trim();
+<button onclick="playKick()">🥁 Kick</button>
+<button onclick="playSnare()">👏 Snare</button>
+<button onclick="playHat()">✨ Hi-hat</button>
 
-    if(text === ""){
-        document.getElementById("score").innerText =
-        "Schrijf eerst een rap.";
-        return;
-    }
+<br><br>
 
+<button onclick="startCustomBeat()">▶ Start eigen beat</button>
+<button onclick="stopCustomBeat()">⏹ Stop</button>
 
-    let score = 0;
+<p>
+Beat-score:
+<span id="beatScore">0</span>/100
+</p>
 
-    let aantalWoorden = text.split(/\s+/).length;
-    let regels = text.split("\n").length;
+</div>
 
 
-    if(aantalWoorden > 30)
-        score += 30;
 
-    if(aantalWoorden > 60)
-        score += 20;
+<div class="card">
+<h2>✍️ Schrijf je rap</h2>
 
+<textarea id="lyrics"
+placeholder="Schrijf hier je rap..."></textarea>
 
-    score += Math.min(regels * 5, 30);
+<p>
+Woorden:
+<span id="words">0</span>
+</p>
 
+</div>
 
-    let rijm =
-    (text.match(/[aeiou]{2,}/gi) || []).length;
 
 
-    score += Math.min(rijm * 2,20);
+<div class="card">
+<h2>💡 Inspiratie</h2>
 
+<button onclick="randomWord()">
+Nieuw woord
+</button>
 
-    document.getElementById("score").innerText =
-    "⭐ Score: " + score + "/100";
+<p id="word"></p>
 
-}
+</div>
 
 
-// Beat
-let audioContext;
-let playing = false;
 
+<div class="card">
+<h2>⭐ Rap Score</h2>
 
-document.getElementById("beatBtn").onclick = () => {
+<button onclick="checkRap()">
+Controleer
+</button>
 
-    if(!audioContext){
-        audioContext =
-        new AudioContext();
-    }
+<h3 id="score"></h3>
 
+</div>
 
-    playing = !playing;
 
 
-    if(playing){
 
-        beat();
-        beatBtn.innerText = "Stop Beat";
+<div class="card">
+<h2>🎙️ Stemopname</h2>
 
-    }else{
+<button id="recordBtn">
+Start opname
+</button>
 
-        beatBtn.innerText = "Start Beat";
+<button id="stopBtn" disabled>
+Stop
+</button>
 
-    }
+<br><br>
 
-};
+<audio id="audio" controls></audio>
 
+<br>
 
+<a id="download" download="mijn_rap.webm">
+Download opname
+</a>
 
-function beat(){
+</div>
 
-    if(!playing) return;
 
 
-    let oscillator =
-    audioContext.createOscillator();
 
-    let gain =
-    audioContext.createGain();
+<div class="card">
 
+<h2>🎤 Karaoke modus</h2>
 
-    oscillator.frequency.value = 120;
-    gain.gain.value = 0.08;
 
+<textarea id="karaokeLyrics"
+placeholder="Plak hier de tekst..."></textarea>
 
-    oscillator.connect(gain);
-    gain.connect(audioContext.destination);
 
+<br><br>
 
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + 0.08);
 
+<label>
+BPM:
+<span id="bpmValue">90</span>
+</label>
 
-    setTimeout(beat,500);
 
-}
+<br>
 
 
+<input
+type="range"
+id="bpm"
+min="60"
+max="180"
+value="90"
+oninput="updateBPM()">
 
-// Stemopname
-let mediaRecorder;
-let chunks = [];
 
 
-const recordBtn =
-document.getElementById("recordBtn");
+<br><br>
 
-const stopBtn =
-document.getElementById("stopBtn");
 
-const audio =
-document.getElementById("audio");
+<button onclick="startKaraoke()">
+▶ Start Karaoke
+</button>
 
-const download =
-document.getElementById("download");
 
+<button onclick="pauseKaraoke()">
+⏸ Pauze
+</button>
 
 
-recordBtn.onclick = async () => {
 
+<div id="karaoke"></div>
 
-    const stream =
-    await navigator.mediaDevices.getUserMedia({
-        audio:true
-    });
 
+</div>
 
-    mediaRecorder =
-    new MediaRecorder(stream);
 
 
-    chunks=[];
+<script src="script.js"></script>
 
-
-    mediaRecorder.ondataavailable =
-    e => chunks.push(e.data);
-
-
-
-    mediaRecorder.onstop = () => {
-
-
-        const blob =
-        new Blob(chunks,{
-            type:"audio/webm"
-        });
-
-
-        const url =
-        URL.createObjectURL(blob);
-
-
-        audio.src=url;
-
-        download.href=url;
-
-        download.style.display="inline";
-
-    };
-
-
-    mediaRecorder.start();
-
-
-    recordBtn.disabled=true;
-
-    stopBtn.disabled=false;
-
-};
-
-
-
-stopBtn.onclick = () => {
-
-    mediaRecorder.stop();
-
-    recordBtn.disabled=false;
-
-    stopBtn.disabled=true;
-
-};
-
-
-
-// Karaoke
-let karaokeTimer;
-let currentLine=0;
-let lines=[];
-let bpm=90;
-
-
-
-function updateBPM(){
-
-    bpm =
-    Number(document.getElementById("bpm").value);
-
-
-    document.getElementById("bpmValue")
-    .innerText=bpm;
-
-}
-
-
-
-function startKaraoke(){
-
-
-    clearInterval(karaokeTimer);
-
-
-    lines =
-    document.getElementById("karaokeLyrics")
-    .value
-    .split("\n")
-    .filter(line=>line.trim()!=="");
-
-
-    currentLine=0;
-
-
-    showLine();
-
-
-
-    karaokeTimer=setInterval(()=>{
-
-
-        currentLine++;
-
-
-        if(currentLine>=lines.length){
-
-            clearInterval(karaokeTimer);
-
-            document.getElementById("karaoke")
-            .innerHTML="🎉 Klaar!";
-
-            return;
-
-        }
-
-
-        showLine();
-
-
-    },(60/bpm)*4000);
-
-
-}
-
-
-
-function showLine(){
-
-
-    let html="";
-
-
-    lines.forEach((line,index)=>{
-
-
-        if(index===currentLine){
-
-            html +=
-            "<span style='color:#ff4fa2;font-size:30px;'>▶ "
-            + line +
-            "</span><br>";
-
-        }else{
-
-            html +=
-            "<span style='opacity:0.4;'>"
-            + line +
-            "</span><br>";
-
-        }
-
-
-    });
-
-
-    document.getElementById("karaoke")
-    .innerHTML=html;
-
-
-}
-
-
-
-function pauseKaraoke(){
-
-    clearInterval(karaokeTimer);
-
-}
+</body>
+</html>
